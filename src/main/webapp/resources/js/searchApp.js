@@ -39,6 +39,8 @@ searchApp.controller("SearchController", function($scope, $http, $dialog, pdfSea
 	};
 	$scope.addVisualization = function(){
 		var nodes = $scope.results;
+		var root = nodes[0];
+		root.fixed = true;
 		var highlightsArr = [];
 		var color = d3.scale.category20();
 		var w = $("#vis").width(), h = $("#vis").height()-5;
@@ -46,14 +48,15 @@ searchApp.controller("SearchController", function($scope, $http, $dialog, pdfSea
 			$(".svg_vis").remove();
 		if(nodes.length <= 0)
 			return;
+		else if(nodes.length == 1)
+			data = nodes;
+		else
+			data = nodes.slice(1);
 		var force = d3.layout.force()
 		    .gravity(0.05)
 		    .charge(function(d, i) { return i ? 0 : -2000; })
 		    .nodes(nodes)
 		    .size([w, h]);
-		if(nodes.length != 1){		   
-		    nodes[0].fixed = true;
-		}		
 		force.start();
 		var svg = d3.select("#vis").append("svg:svg")
 		    .attr("width", w)
@@ -69,7 +72,7 @@ searchApp.controller("SearchController", function($scope, $http, $dialog, pdfSea
 		    .attr("width", w)
 		    .attr("height", h);
 		var circle = svg.selectAll("circle")
-		    .data(nodes.slice(1))
+		    .data(data)
 		    .enter().append("svg:circle")
 		    .attr("r", function(d) {
 		    	d.radius = radiusScale(d.highlights.length);

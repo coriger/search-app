@@ -5,6 +5,7 @@ package org.qburst.search.controller;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ import org.apache.solr.client.solrj.impl.HttpSolrServer;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocumentList;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.qburst.search.indexer.AbstractSearchIndexer;
 import org.qburst.search.model.Search;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -27,6 +29,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.support.DefaultMultipartHttpServletRequest;
 
 /**
  * @author Cyril
@@ -34,7 +38,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller
 public class SearchController {
-	private ObjectMapper mapper = new ObjectMapper();
 
 	public SearchController() {
 
@@ -42,7 +45,7 @@ public class SearchController {
 
 	@RequestMapping(value = "/search", method = RequestMethod.GET)
 	public @ResponseBody
-	String listNewJoinee(
+	String doSearch(
 			@RequestParam(required = true, value = "query") String q) {
 		String jsonData = "";
 		try {
@@ -124,5 +127,23 @@ public class SearchController {
 			inputStream.close();
 			outStream.close();
 		}
+	}
+	@RequestMapping(value="/upload", method=RequestMethod.POST)
+	public @ResponseBody String upload(@RequestParam("files[]") ArrayList<MultipartFile> files, HttpServletRequest request) {
+		for (MultipartFile mf : files){
+			String fn = mf.getOriginalFilename();
+			fn = AbstractSearchIndexer.home_folder + "/" + mf.getOriginalFilename();
+			File file = new File(fn);
+			if (!file.exists()){
+				try{
+					FileOutputStream fos = new FileOutputStream(file);
+					fos.write(mf.getBytes());
+					fos.close();
+				} catch (Exception e){
+					e.printStackTrace();
+				}
+			}
+		}
+		return "{\"files\": \"uploaded\"}";
 	}
 }

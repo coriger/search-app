@@ -9,6 +9,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,6 +24,7 @@ import org.apache.solr.common.SolrDocumentList;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.qburst.search.indexer.AbstractSearchIndexer;
 import org.qburst.search.model.Search;
+import org.qburst.search.model.UploadStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -128,22 +130,40 @@ public class SearchController {
 			outStream.close();
 		}
 	}
+	
 	@RequestMapping(value="/upload", method=RequestMethod.POST)
 	public @ResponseBody String upload(@RequestParam("files[]") ArrayList<MultipartFile> files, HttpServletRequest request) {
+		ArrayList<UploadStatus> usList = new ArrayList<UploadStatus>();
+		String jsonData = "";
 		for (MultipartFile mf : files){
 			String fn = mf.getOriginalFilename();
 			fn = AbstractSearchIndexer.home_folder + "/" + mf.getOriginalFilename();
 			File file = new File(fn);
+			UploadStatus us = new UploadStatus();
+			us.setFileName(mf.getOriginalFilename());
 			if (!file.exists()){
 				try{
 					FileOutputStream fos = new FileOutputStream(file);
 					fos.write(mf.getBytes());
 					fos.close();
+					us.setStatus("SUCCESS");
 				} catch (Exception e){
 					e.printStackTrace();
+					us.setStatus("FAILURE");
+					us.setReason(e.getMessage());
 				}
+			} else {
+				us.setStatus("FAILURE");
+				us.setReason("File Already Present");
 			}
+			usList.add(us);
 		}
-		return "{\"files\": \"uploaded\"}";
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			jsonData = mapper.writeValueAsString(usList);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return jsonData;
 	}
 }

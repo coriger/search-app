@@ -16,6 +16,7 @@
 
 </head>
 <body ng-app="searchApp">
+<jsp:include page="components/userProfile.jsp" />
 	<div ng-controller="SearchController">
 		<div class="search-div">
 			<h1>PDF Search</h1>

@@ -1,14 +1,11 @@
 /*style.css*/
 body {
     overflow:hidden;
-    width: 90%;
-	margin-left: auto;
-	margin-right: auto;
+    width: 90% !important;
+	margin-left: auto !important;
+	margin-right: auto !important;
 	background-color: white;
 	margin-top: -5px;
-}
-body div:first-child{
-	background-color: white;
 }
 .search-text{
 	width : 50% !important;
@@ -23,9 +20,13 @@ body div:first-child{
 .tab-content{
 	border: 1px solid #ddd;
 	width: 100%;
-	height: 422px;
+	height: 360px !important;
 	border-top: 0px;
-	margin-top: -23px;
+	margin-top: -20px;
+}
+.tab-content div:nth-child(2){
+	margin-top: -12px;
+	fill: black;
 }
 .search-div{
 	text-align: center;
@@ -38,10 +39,7 @@ body div:first-child{
 	display:none;
 	text-align: center;
 	border: 3px solid #C13A33;
-	height: 408px !important;
 	width: 98% !important;
-	max-height: 408px !important;
-	overflow-y: auto;
 	margin-left: auto;
 	margin-right: auto;
 	margin-top: 8px;
@@ -60,13 +58,17 @@ body div:first-child{
 }
 
 #vis{
-	height : 415px !important;
-	width: 1229px !important;
-	max-height: 415px !important;
+	height: 360px !important;
+	max-height: 360px !important;
+	width: 1210px !important;
 	margin-left: auto;
 	margin-right: auto;
 	margin-top: 12px;
 }
+/*.tab-pane{
+	height: 360px !important;
+	max-height: 360px !important;
+}*/
 .results-div table td{
 	border: 1px solid #C13A33 !important;
 }
@@ -84,23 +86,21 @@ body div:first-child{
 	top: 5% !important;	
 }
 #fileupload{
-	margin: 0px !important;	
+	margin: 0px !important;
+	padding-top: 35px;	
 }
 .upload-bar{
 	text-align: center;
 	border: 3px solid #C13A33;
-	height: 400px !important;
 	width: 98% !important;
-	max-height: 400px !important;
-	margin-left: auto;
+	margin-left: auto !important;
 	margin-right: auto;
-	margin-top: 17px;
+	height: 285px !important;
 }
 .upload-bar div{
-	margin-top: 10px;
+	padding-top: 10px !important;
 }
 .upload-table-div{
-	height: 350px !important;
 	overflow-y: auto;
 }
 .upload-table-div table th{

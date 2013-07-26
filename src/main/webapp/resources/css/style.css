@@ -4,6 +4,11 @@ body {
     width: 90%;
 	margin-left: auto;
 	margin-right: auto;
+	background-color: white;
+	margin-top: -5px;
+}
+body div:first-child{
+	background-color: white;
 }
 .search-text{
 	width : 50% !important;
@@ -18,9 +23,9 @@ body {
 .tab-content{
 	border: 1px solid #ddd;
 	width: 100%;
-	height: 430px;
+	height: 422px;
 	border-top: 0px;
-	margin-top: -23px;
+	/*margin-top: -23px;*/
 }
 .search-div{
 	text-align: center;
@@ -78,21 +83,21 @@ body {
 .modal{
 	top: 5% !important;	
 }
-#fileUpload{
+#fileupload{
 	margin: 0px !important;	
 }
 .upload-bar{
 	text-align: center;
 	border: 3px solid #C13A33;
-	height: 408px !important;
+	height: 400px !important;
 	width: 98% !important;
-	max-height: 408px !important;
+	max-height: 400px !important;
 	margin-left: auto;
 	margin-right: auto;
-	margin-top: 8px;
+	margin-top: 17px;
 }
 .upload-bar div{
-	margin-top : 16px;
+	margin-top: 10px;
 }
 .upload-table-div{
 	height: 350px !important;

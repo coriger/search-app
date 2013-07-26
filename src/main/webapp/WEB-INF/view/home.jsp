@@ -13,7 +13,6 @@
 <script src="<c:url value="/resources/lib/d3/d3.v2.min.js" />"></script>
 <script src="<c:url value="/resources/js/searchApp.js"/>"></script>
 <script src="<c:url value="/resources/js/pdfSearchService.js"/>"></script>
-<script src="<c:url value="/resources/js/visualize.js"/>"></script>
 
 </head>
 <body ng-app="searchApp">
@@ -68,6 +67,8 @@
 				                    <i class="icon-ban-circle icon-white"></i>
 				                    <span>Cancel upload</span>
 				                </button>
+				             </div>
+				             <div>
 				             	<div class="upload-table-div">
 						        	<table role="presentation" class="table">
 							        	<tr>

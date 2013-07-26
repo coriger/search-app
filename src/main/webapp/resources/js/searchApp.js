@@ -60,14 +60,14 @@ searchApp.controller("SearchController", function($scope, $http, $dialog, pdfSea
         $http({
             method: 'POST',
             url: "upload",
-            headers: { 'Content-Type': 'application/pdf' },
+            headers: { 'Content-Type': false },
             //This method will allow us to change how the data is sent up to the server
             // for which we'll need to encapsulate the model data in 'FormData'
             transformRequest: function (data) {
                 var formData = new FormData();
                 $.each(data.files,function(index,file){
                 	if(file.type == "application/pdf")
-                		formData.append("file" + index, file);
+                		formData.append("files[]", file);
                 });
                 return formData;
             },
@@ -77,9 +77,13 @@ searchApp.controller("SearchController", function($scope, $http, $dialog, pdfSea
         }).
         success(function (data, status, headers, config) {
             alert("success!");
+            console.log(data);
+            console.log(status);
         }).
         error(function (data, status, headers, config) {
         	alert("failed!");
+            console.log(data);
+            console.log(status);
         });
     };
 });

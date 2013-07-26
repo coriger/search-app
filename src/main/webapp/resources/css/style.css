@@ -75,6 +75,9 @@ body {
 	direction: ltr;
 	cursor: pointer;
 }
+.modal{
+	top: 5% !important;	
+}
 #fileUpload{
 	margin: 0px !important;	
 }

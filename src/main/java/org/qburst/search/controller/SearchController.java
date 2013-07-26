@@ -72,7 +72,7 @@ public class SearchController {
 					s.setHighlights(data);
 					s.setId(key);
 					s.setAuthor(results.get(idx).containsKey("author") ? stringify(results
-							.get(idx).get("author")) : "");
+							.get(idx).get("author")) : "Unknown");
 					s.setUrl(results.get(idx).containsKey("url") ? results
 							.get(idx).get("url").toString() : "");
 					s.setTitle(results.get(idx).containsKey("title") ? stringify(results

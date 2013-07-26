@@ -26,17 +26,11 @@ public class LoginFilter implements Filter {
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
-
 		InputStream input = null;
-
 		try {
-			input = getClass().getClassLoader().getResourceAsStream(
-					"openid-urls.properties");
-
+			input = getClass().getClassLoader().getResourceAsStream("openid-urls.properties");
 			props.load(input);
-
 		} catch (IOException e) {
-			// load failed:
 			e.printStackTrace();
 		} finally {
 			if (input != null) {
@@ -61,12 +55,12 @@ public class LoginFilter implements Filter {
 			FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
-		
-		if(httpRequest.getRequestURI().matches(".*(css|jpg|png|gif|js)")){
-		    chain.doFilter(request, response);
-		    return;
+
+		if (httpRequest.getRequestURI().matches(".*(css|jpg|png|gif|js)")) {
+			chain.doFilter(request, response);
+			return;
 		}
-		
+
 		if (!isOpen) {
 			String action = request.getParameter("action");
 			if (action != null && "logout".equalsIgnoreCase(action)) {
@@ -96,10 +90,8 @@ public class LoginFilter implements Filter {
 				}
 
 			}
-		}
-		else
-		{
-			request.setAttribute("noAuthentication","Y");
+		} else {
+			request.setAttribute("noAuthentication", "Y");
 		}
 		chain.doFilter(request, response);
 

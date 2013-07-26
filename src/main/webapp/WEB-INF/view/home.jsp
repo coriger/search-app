@@ -5,8 +5,8 @@
 <head lang="en">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>QB Search</title>
-<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
 <link rel="stylesheet" href="<c:url value="/resources/css/style.css" />" type="text/css" />
+<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
 <script src="<c:url value="/resources/lib/angular.js"/>"></script>
 <script src="<c:url value="/resources/lib/jquery-1.9.1.js" />"></script>
 <script src="<c:url value="/resources/lib/ui-bootstrap-tpls-0.4.0.js" />"></script>

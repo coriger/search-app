@@ -1,9 +1,4 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<link rel="stylesheet"
-	href="<c:url value="/resources/css/bootstrap-combined.min.css"/>"
-	type="text/css" />
-<link rel="stylesheet"
-	href="<c:url value="/resources/css/bootstrap.css" />" type="text/css" />
 
 <!-- latest jQuery, Boostrap JS and hover dropdown plugin -->
 <script

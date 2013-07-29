@@ -80,9 +80,6 @@ searchApp.controller("SearchController", function($scope, $http, $dialog, pdfSea
 		    })
 		    .style("fill", function(d, i) { return color(i) })
 		    .call(force.drag)
-		    .on("click",function(d){
-			    $scope.show(d);
-		    })
 		    .append("svg:title")
 		    .text(function(d){ return d.title; });
 		force.on("tick", function(e) {
@@ -138,38 +135,51 @@ searchApp.controller("SearchController", function($scope, $http, $dialog, pdfSea
     	$scope.files.splice(index,1)
     };
     $scope.upload = function(){
-        $http({
-            method: 'POST',
-            url: "upload",
-            headers: { 'Content-Type': false },
-            //This method will allow us to change how the data is sent up to the server
-            // for which we'll need to encapsulate the model data in 'FormData'
-            transformRequest: function (data) {
-                var formData = new FormData();
-                $.each(data.files,function(index,file){
-                	if(file.type == "application/pdf")
-                		formData.append("files[]", file);
-                });
-                return formData;
-            },
-            //Create an object that contains the model and files which will be transformed
-            // in the above transformRequest method
-            data: { files: $scope.files }
-        }).
-        success(function (data, status, headers, config) {
-            alert("success!");
-            console.log(data);
-            console.log(status);
-        }).
-        error(function (data, status, headers, config) {
-        	alert("failed!");
-            console.log(data);
-            console.log(status);
-        });
+    	if($scope.files.length > 0){
+    		$http({
+                method: 'POST',
+                url: "upload",
+                headers: { 'Content-Type': false },
+                //This method will allow us to change how the data is sent up to the server
+                // for which we'll need to encapsulate the model data in 'FormData'
+                transformRequest: function (data) {
+                    var formData = new FormData();
+                    $.each(data.files,function(index,file){
+                    	if(file.type == "application/pdf")
+                    		formData.append("files[]", file);
+                    });
+                    return formData;
+                },
+                //Create an object that contains the model and files which will be transformed
+                // in the above transformRequest method
+                data: { files: $scope.files }
+            }).
+            success(function (data, status, headers, config) {
+            	$scope.showUploadStatus(data);
+            	$scope.files = [];
+                console.log(data);
+                console.log(status);
+            }).
+            error(function (data, status, headers, config) {
+            	alert("failed!");
+                console.log(data);
+                console.log(status);
+            });
+    	}
     };
+    $scope.showUploadStatus = function(files){
+    	var d = $dialog.dialog({ backdrop: true, keyboard: true, dialogFade: true, resolve: {files: function(){ return angular.copy(files); } }})
+    	d.open('resources/template/upload_status.html', 'UploadController');
+    }
 });
 searchApp.controller("ShowController", function($scope, item, dialog) {
 	$scope.item = item;
+	$scope.close = function(){
+	   dialog.close(undefined);
+	};
+});
+searchApp.controller("UploadController", function($scope, files, dialog) {
+	$scope.files = files;
 	$scope.close = function(){
 	   dialog.close(undefined);
 	};

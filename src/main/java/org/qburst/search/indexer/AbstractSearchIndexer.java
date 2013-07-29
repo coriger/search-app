@@ -18,7 +18,7 @@ import org.apache.solr.client.solrj.response.QueryResponse;
  */
 public abstract class AbstractSearchIndexer implements ISearchIndexer {
 	public static String home_folder = "/home/user/my-stuffs/my-boox";
-	protected HttpSolrServer solr = new HttpSolrServer("http://10.4.0.56:8983/solr");
+	protected HttpSolrServer solr = new HttpSolrServer("http://10.4.0.56:8983/solr/books");
 
 	public ArrayList<File> getFilesFromFolder() throws Exception{
 		File folder = new File(home_folder);

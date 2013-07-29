@@ -52,7 +52,7 @@ public class SearchController {
 		String jsonData = "";
 		try {
 			HttpSolrServer solr = new HttpSolrServer(
-					"http://10.4.0.56:8983/solr");
+					"http://10.4.0.56:8983/solr/books");
 			SolrQuery query = new SolrQuery();
 			query.setQuery(q);
 			query.setFields("content", "author", "url", "title");

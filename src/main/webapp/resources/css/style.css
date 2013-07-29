@@ -127,10 +127,6 @@ body {
 }
 .modal{
 	width: auto !important;
-	margin-left: auto;
-	margin-right: 100%;
-	margin-top: auto;
-	margin-bottom: 100%;
 }
 .modal-body table th{
 	color: #51a351;

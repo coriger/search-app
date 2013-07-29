@@ -91,8 +91,8 @@ searchApp.controller("SearchController", function($scope, $http, $dialog, pdfSea
 			      n = nodes.length;
 			  while (++i < n) q.visit(collide(nodes[i]));
 			  svg.selectAll("circle")
-			      .attr("cx", function(d) { return d.x; })
-			      .attr("cy", function(d) { return d.y; });
+			      .attr("cx", function(d) { return d.x = Math.max(d.radius, Math.min(w - d.radius, d.x))  })
+			      .attr("cy", function(d) { return d.y = Math.max(d.radius, Math.min(h - d.radius, d.y)); });
 		});
 		function collide(node) {
 			var r = node.radius + 16,

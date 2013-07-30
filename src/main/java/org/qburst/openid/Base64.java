@@ -1,4 +1,4 @@
-package org.expressme.openid;
+package org.qburst.openid;
 
 /**
  * <p>Encodes and decodes to and from Base64 notation.</p>

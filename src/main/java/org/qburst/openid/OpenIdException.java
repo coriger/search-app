@@ -1,4 +1,4 @@
-package org.expressme.openid;
+package org.qburst.openid;
 
 /**
  * Exception for any open id authentication.

@@ -1,4 +1,4 @@
-package com.qburst.openidlogin;
+package org.qburst.openidlogin;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.expressme.openid.OpenIdManager;
+import org.qburst.openid.OpenIdManager;
 
 public class LoginFilter implements Filter {
 	public static final String OPENID_INDENTITY = "openIdIdentity";

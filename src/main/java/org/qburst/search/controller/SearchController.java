@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocumentList;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.qburst.openidlogin.LoginFilter;
 import org.qburst.search.indexer.IndexEngine;
 import org.qburst.search.model.Authentication;
 import org.qburst.search.model.Search;
@@ -34,7 +35,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.qburst.openidlogin.LoginFilter;
 
 /**
  * @author Cyril

@@ -1,4 +1,4 @@
-package org.expressme.openid;
+package org.qburst.openid;
 
 import java.io.IOException;
 import java.io.InputStream;

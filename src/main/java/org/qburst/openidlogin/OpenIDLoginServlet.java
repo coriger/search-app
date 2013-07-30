@@ -1,4 +1,4 @@
-package com.qburst.openidlogin;
+package org.qburst.openidlogin;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,14 +13,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.expressme.openid.Association;
-import org.expressme.openid.Endpoint;
-import org.expressme.openid.OpenIdException;
-import org.expressme.openid.OpenIdManager;
+import org.qburst.openid.Association;
+import org.qburst.openid.Endpoint;
+import org.qburst.openid.OpenIdException;
+import org.qburst.openid.OpenIdManager;
 import org.qburst.search.model.Authentication;
 
 public class OpenIDLoginServlet extends HttpServlet {
-
+	private static final long serialVersionUID = 6077626908073845446L;
+	
 	static final long ONE_HOUR = 3600000L;
 	static final long TWO_HOUR = ONE_HOUR * 2L;
 	static final String ATTR_MAC = "openid_mac";
@@ -32,15 +33,10 @@ public class OpenIDLoginServlet extends HttpServlet {
 	@Override
 	public void init() throws ServletException {
 		super.init();
-
 		InputStream input = null;
-
 		try {
-			input = getClass().getClassLoader().getResourceAsStream(
-					"openid-urls.properties");
-
+			input = getClass().getClassLoader().getResourceAsStream("openid-urls.properties");
 			props.load(input);
-
 		} catch (IOException e) {
 			// load failed:
 			e.printStackTrace();
@@ -55,7 +51,6 @@ public class OpenIDLoginServlet extends HttpServlet {
 
 		manager = new OpenIdManager();
 		manager.setRealm(props.getProperty("realm"));
-		// manager.setReturnTo("http://localhost:8080/openid/openid");
 		manager.setReturnTo(props.getProperty("returnToURL"));
 	}
 

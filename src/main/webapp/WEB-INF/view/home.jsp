@@ -53,19 +53,19 @@
 					<form id="fileupload" method="POST" enctype="multipart/form-data">
 				        <div class="row upload-bar">
 				            <div>
-				                <button class="btn btn-success fileinput-button">
+				                <span class="btn btn-success fileinput-button">
 				                    <i class="icon-plus icon-white"></i>
 				                    <input type="file" name="files[]" multiple file-upload accept="application/pdf"/>
 				                    <span>Add files...</span>
-				                </button>
-				                <button type="submit" class="btn btn-primary start" ng-click="upload()">
+				                </span>
+				                <span type="submit" class="btn btn-primary start" ng-click="upload()">
 				                    <i class="icon-upload icon-white"></i>
 				                    <span>Start upload</span>
-				                </button>
-				                <button type="reset" class="btn btn-warning cancel">
+				                </span>
+				                <span type="reset" class="btn btn-warning cancel">
 				                    <i class="icon-ban-circle icon-white"></i>
 				                    <span>Cancel upload</span>
-				                </button>
+				                </span>
 				             </div>
 				             <div>
 				             	<div class="upload-table-div">

@@ -47,8 +47,7 @@
 			</div>
 			</tab>
 			<tab heading="Visualization">
-				<div id="vis">
-				</div>
+				<draw-visualization val="results" class="vis"></draw-visualization>
 			</tab>
 				<tab heading="Upload">
 					<form id="fileupload" method="POST" enctype="multipart/form-data">

@@ -4,12 +4,10 @@
 package org.qburst.search.indexer;
 
 import java.io.File;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.PDDocumentInformation;
+import org.apache.solr.client.solrj.impl.HttpSolrServer;
 import org.apache.solr.client.solrj.request.AbstractUpdateRequest;
 import org.apache.solr.client.solrj.request.ContentStreamUpdateRequest;
 import org.apache.solr.client.solrj.response.UpdateResponse;
@@ -21,6 +19,10 @@ import org.apache.solr.client.solrj.response.UpdateResponse;
 public class SearchPDFIndexer extends AbstractSearchIndexer implements
 		ISearchIndexer {
 	
+	public SearchPDFIndexer(HttpSolrServer solr, String homeFolder) {
+		super(solr, homeFolder);
+	}
+	
 	@Override
 	public Map<String, String> getMetaDataFromFile(File file)
 			throws Exception {
@@ -30,9 +32,9 @@ public class SearchPDFIndexer extends AbstractSearchIndexer implements
 	}
 	
 	@Override
-	public void doIndexing(File file) throws Exception {
+	public synchronized void doIndexing(File file) throws Exception {
 		
-		String ids = (file.getAbsolutePath().hashCode() + "").replace("-", "*");
+		String ids = (file.getAbsolutePath().hashCode() + "").replace("-", "_");
 		if (!isFileIndexed(ids)) {
 			Map<String, String> metaData = getMetaDataFromFile(file);
 			ContentStreamUpdateRequest up = new ContentStreamUpdateRequest(

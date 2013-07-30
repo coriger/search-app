@@ -3,6 +3,7 @@
  */
 package org.qburst.search.model;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -19,7 +20,8 @@ public class Search {
 	private String title = "";
 	private String url = "";
 	private String fileName = "";
-
+	private HashMap<String, String> userDetails = new HashMap<String, String>();
+	
 	public String getAuthor() {
 		return author;
 	}
@@ -66,5 +68,13 @@ public class Search {
 
 	public String getFileName() {
 		return fileName;
+	}
+
+	public HashMap<String, String> getUserDetails() {
+		return userDetails;
+	}
+
+	public void setUserDetails(HashMap<String, String> userDetails) {
+		this.userDetails = userDetails;
 	}
 }

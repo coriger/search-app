@@ -17,11 +17,15 @@ import org.apache.solr.client.solrj.response.QueryResponse;
  * 
  */
 public abstract class AbstractSearchIndexer implements ISearchIndexer {
-	public static String home_folder = "/home/user/my-stuffs/my-boox";
-	protected HttpSolrServer solr = new HttpSolrServer("http://10.4.0.56:8983/solr/books");
-
+	protected HttpSolrServer solr;
+	private String homeFolder = "";
+	
+	public AbstractSearchIndexer(HttpSolrServer solr, String homeFolder) {
+		this.solr = solr;
+		this.homeFolder = homeFolder;
+	}
 	public ArrayList<File> getFilesFromFolder() throws Exception{
-		File folder = new File(home_folder);
+		File folder = new File(homeFolder);
 		File[] listOfFiles = folder.listFiles();
 		ArrayList<File> files = new ArrayList<File>();
 		for (File file : listOfFiles) {
@@ -53,5 +57,5 @@ public abstract class AbstractSearchIndexer implements ISearchIndexer {
 			solr.rollback();
 		}
 	}
-
+	
 }

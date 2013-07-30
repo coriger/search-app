@@ -9,7 +9,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,14 +16,16 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.solr.client.solrj.SolrQuery;
-import org.apache.solr.client.solrj.impl.HttpSolrServer;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocumentList;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.qburst.search.indexer.AbstractSearchIndexer;
+import org.qburst.search.indexer.IndexEngine;
+import org.qburst.search.model.Authentication;
 import org.qburst.search.model.Search;
 import org.qburst.search.model.UploadStatus;
+import org.qburst.search.services.ISolrUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,7 +33,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.support.DefaultMultipartHttpServletRequest;
+
+import com.qburst.openidlogin.LoginFilter;
 
 /**
  * @author Cyril
@@ -40,9 +42,13 @@ import org.springframework.web.multipart.support.DefaultMultipartHttpServletRequ
  */
 @Controller
 public class SearchController {
-
-	public SearchController() {
-
+	private ISolrUtils solrService;
+	private IndexEngine iEngine;
+	@Autowired
+	public SearchController(@Qualifier(value = "SolrUtilsService") ISolrUtils su,
+			@Qualifier(value = "pdfIndexerBean") IndexEngine ie) {
+		solrService = su;
+		iEngine = ie;
 	}
 
 	@RequestMapping(value = "/search", method = RequestMethod.GET)
@@ -51,17 +57,7 @@ public class SearchController {
 			@RequestParam(required = true, value = "query") String q) {
 		String jsonData = "";
 		try {
-			HttpSolrServer solr = new HttpSolrServer(
-					"http://10.4.0.56:8983/solr/books");
-			SolrQuery query = new SolrQuery();
-			query.setQuery(q);
-			query.setFields("content", "author", "url", "title");
-			query.setHighlight(true);
-			query.addHighlightField("content");
-			query.setHighlightSnippets(1000);
-			query.setHighlightSimplePost("</span>");
-			query.setHighlightSimplePre("<span class='label label-important'>");
-			QueryResponse response = solr.query(query);
+			QueryResponse response = solrService.queryBooks(q);
 			SolrDocumentList results = response.getResults();
 			Map<String, Map<String, List<String>>> highlights = response
 					.getHighlighting();
@@ -79,13 +75,13 @@ public class SearchController {
 							.get(idx).get("url").toString() : "");
 					s.setTitle(results.get(idx).containsKey("title") ? stringify(results
 							.get(idx).get("title")) : "");
+					s.setUserDetails(solrService.getUserInfo(s.getUrl()));
 					mySearch.add(s);
 				}
 				idx++;
 			}
 			ObjectMapper mapper = new ObjectMapper();
 			jsonData = mapper.writeValueAsString(mySearch);
-			solr.shutdown();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -135,9 +131,11 @@ public class SearchController {
 	public @ResponseBody String upload(@RequestParam("files[]") ArrayList<MultipartFile> files, HttpServletRequest request) {
 		ArrayList<UploadStatus> usList = new ArrayList<UploadStatus>();
 		String jsonData = "";
+		Authentication user = ((Authentication)request.getSession().getAttribute(LoginFilter.OPENID_INDENTITY));
+		boolean bIndexing = false;
 		for (MultipartFile mf : files){
 			String fn = mf.getOriginalFilename();
-			fn = AbstractSearchIndexer.home_folder + "/" + mf.getOriginalFilename();
+			fn = solrService.getBookFolder() + "/" + mf.getOriginalFilename();
 			File file = new File(fn);
 			UploadStatus us = new UploadStatus();
 			us.setFileName(mf.getOriginalFilename());
@@ -147,6 +145,8 @@ public class SearchController {
 					fos.write(mf.getBytes());
 					fos.close();
 					us.setStatus("SUCCESS");
+					solrService.writeBookMeta(user, fn);
+					bIndexing = true;
 				} catch (Exception e){
 					e.printStackTrace();
 					us.setStatus("FAILURE");
@@ -161,6 +161,19 @@ public class SearchController {
 		ObjectMapper mapper = new ObjectMapper();
 		try {
 			jsonData = mapper.writeValueAsString(usList);
+			if (bIndexing){
+				Runnable r = new Runnable() {
+					@Override
+					public void run() {
+						try{
+							iEngine.start();
+						} catch(Exception e){
+							e.printStackTrace();
+						}
+					}
+				};
+				new Thread(r).start();
+			}
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

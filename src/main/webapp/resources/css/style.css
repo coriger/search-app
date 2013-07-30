@@ -57,11 +57,11 @@ body {
 	text-align: center !important;
 }
 
-#vis{
+.svg_vis{
 	height: 360px !important;
 	max-height: 360px !important;
 	width: 1210px !important;
-	margin-left: auto;
+	margin-left: 10px;
 	margin-right: auto;
 	margin-top: 12px;
 }
@@ -127,11 +127,15 @@ body {
 }
 .modal{
 	width: auto !important;
+	left: 43% !important;
 }
 .modal-body table th{
 	color: #51a351;
 	font-size: 17px;
 }
+.upload-status table td {
+	border: 1px solid #dddddd !important;
+} 
 .upload-status table th{
 	color: #C13A33 !important;
 }

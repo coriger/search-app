@@ -35,8 +35,9 @@ public class SolrUtils implements ISolrUtils{
 		try{
 			SolrQuery query = new SolrQuery();
 			query.setQuery(q);
-			query.setFields("content", "author", "url", "title");
+			query.setFields("content", "author", "url", "title", "id");
 			query.setHighlight(true);
+			query.setRows(50);
 			query.addHighlightField("content");
 			query.setHighlightSnippets(1000);
 			query.setHighlightSimplePost("</span>");

@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.qburst.openidlogin.LoginFilter;
@@ -62,23 +63,19 @@ public class SearchController {
 			Map<String, Map<String, List<String>>> highlights = response
 					.getHighlighting();
 			ArrayList<Search> mySearch = new ArrayList<Search>();
-			int idx = 0;
 			for (String key : highlights.keySet()) {
 				List<String> data = highlights.get(key).get("content");
 				if (data != null) {
 					Search s = new Search();
 					s.setHighlights(data);
 					s.setId(key);
-					s.setAuthor(results.get(idx).containsKey("author") ? stringify(results
-							.get(idx).get("author")) : "Unknown");
-					s.setUrl(results.get(idx).containsKey("url") ? results
-							.get(idx).get("url").toString() : "");
-					s.setTitle(results.get(idx).containsKey("title") ? stringify(results
-							.get(idx).get("title")) : "");
+					SolrDocument sd = getResult(results, key);
+					s.setAuthor(sd.containsKey("author") ? stringify(sd.get("author")) : "Unknown");
+					s.setUrl(sd.containsKey("url") ? sd.get("url").toString() : "");
+					s.setTitle(sd.containsKey("title") ? stringify(sd.get("title")) : "");
 					s.setUserDetails(solrService.getUserInfo(s.getUrl()));
 					mySearch.add(s);
 				}
-				idx++;
 			}
 			ObjectMapper mapper = new ObjectMapper();
 			jsonData = mapper.writeValueAsString(mySearch);
@@ -88,7 +85,14 @@ public class SearchController {
 		String a = "aaData";
 		return "{" + '"' + a + '"' + ":" + jsonData + "}";
 	}
-
+	private SolrDocument getResult(SolrDocumentList sdl, String id){
+		for (SolrDocument sd : sdl){
+			if (sd.get("id").equals(id)){
+				return sd;
+			}
+		}
+		return null;
+	}
 	private String stringify(Object ary) {
 		String ret = "";
 		if (ary != null && ary instanceof ArrayList) {

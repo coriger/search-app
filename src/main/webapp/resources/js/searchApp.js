@@ -54,12 +54,9 @@ searchApp.controller("SearchController", function($scope, $http, $dialog, pdfSea
         });
     });
     $scope.deleteFile = function(index) {
-    	$scope.files.splice(index,1)
-    	if($scope.files.length <= 0)
-    		$scope.hasFiles = false;
+    	$scope.files.splice(index,1);
     };
     $scope.upload = function(){
-    	$scope.isUpload = true;
     	if($scope.files.length > 0){
     		$http({
                 method: 'POST',
@@ -80,7 +77,6 @@ searchApp.controller("SearchController", function($scope, $http, $dialog, pdfSea
                 data: { files: $scope.files }
             }).
             success(function (data, status, headers, config) {
-            	$scope.isUpload = false;
             	$scope.showUploadStatus(data);
             	$scope.files = [];
             	$scope.hasFiles = false;
@@ -88,7 +84,6 @@ searchApp.controller("SearchController", function($scope, $http, $dialog, pdfSea
                 console.log(status);
             }).
             error(function (data, status, headers, config) {
-            	$scope.isUpload = false;
             	alert("failed!");
                 console.log(data);
                 console.log(status);
@@ -112,14 +107,11 @@ searchApp.controller("UploadController", function($scope, files, dialog) {
 	   dialog.close(undefined);
 	};
 });
-searchApp.directive('drawVisualization', function ($dialog) {
+searchApp.directive('drawVisualization', function ($dialog,$compile) {
     return {
 		restrict: 'E',
-	    scope: {
-	      val: '=',
-	    },
         link: function (scope, element, attrs) {
-        	scope.$watch('val', function (newVal, oldVal) {
+        	scope.$watch('results', function (newVal, oldVal) {
         		if (!newVal || newVal == []) {
         	          return;
     	        }
@@ -135,7 +127,8 @@ searchApp.directive('drawVisualization', function ($dialog) {
         		    .nodes(nodes)
         		    .size([w, h]);
         		force.start();
-        		var svg = d3.select(element[0]).append("svg:svg")
+        		var svg = d3.select(element[0])
+        			.append("svg:svg")
         		    .attr("width", w)
         		    .attr("height", h)
         		    .attr("class","svg_vis");
@@ -155,10 +148,16 @@ searchApp.directive('drawVisualization', function ($dialog) {
         		    	d.radius = radiusScale(d.highlights.length);
         		    	return d.radius; 
         		    })
+        		    .attr("ng-click",function(d){ 
+        		    	scope["node"+d.id] = d;
+        		        return "show(node"+d.id+");"
+        		    })
         		    .style("fill", function(d, i) { return color(i) })
         		    .call(force.drag)
         		    .append("svg:title")
         		    .text(function(d){ return d.title; });
+        		var card_overlay_html = $compile(svg[0])(scope);
+        		$(element).parent().append(card_overlay_html);
         		force.on("tick", function(e) {
         			  var q = d3.geom.quadtree(nodes),
         			      i = 0,

@@ -50,13 +50,19 @@ searchApp.controller("SearchController", function($scope, $http, $dialog, pdfSea
         	if(file.type == "application/pdf") file.response = "resources/images/success.png"
         	else  file.response = "resources/images/error.png"
         	$scope.files.push(file);
-        	$scope.hasFiles = true;
         });
     });
     $scope.deleteFile = function(index) {
     	$scope.files.splice(index,1);
     };
+    $scope.isUploading = function(){
+    	return $scope.uploading;
+    };
+    $scope.shouldDisable = function(){
+    	return $scope.files.length < 1;
+    };
     $scope.upload = function(){
+    	$scope.uploading = true;
     	if($scope.files.length > 0){
     		$http({
                 method: 'POST',
@@ -79,11 +85,12 @@ searchApp.controller("SearchController", function($scope, $http, $dialog, pdfSea
             success(function (data, status, headers, config) {
             	$scope.showUploadStatus(data);
             	$scope.files = [];
-            	$scope.hasFiles = false;
                 console.log(data);
                 console.log(status);
+                $scope.uploading = false;
             }).
             error(function (data, status, headers, config) {
+            	$scope.uploading = false;
             	alert("failed!");
                 console.log(data);
                 console.log(status);

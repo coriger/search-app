@@ -53,16 +53,16 @@
 					<form id="fileupload" method="POST" enctype="multipart/form-data">
 				        <div class="row upload-bar">
 				            <div>
-				                <span class="btn btn-success fileinput-button">
+				                <span class="btn btn-success fileinput-button" ng-disabled="isUploading()">
 				                    <i class="icon-plus icon-white"></i>
-				                    <input type="file" name="files[]" multiple file-upload accept="application/pdf"/>
+				                    <input type="file" name="files[]" multiple file-upload accept="application/pdf" ng-disabled="isUploading()"/>
 				                    <span>Add files...</span>
 				                </span>
-				                <span type="submit" class="btn btn-primary start" ng-click="upload()">
+				                <button type="submit" class="btn btn-primary start" ng-disabled="shouldDisable()" ng-click="upload()">
 				                    <i class="icon-upload icon-white"></i>
 				                    <span>Start upload</span>
-				                </span>
-				                <span type="reset" class="btn btn-warning cancel">
+				                </button>
+				                <span type="reset" class="btn btn-warning cancel" ng-disabled="shouldDisable() || isUploading()">
 				                    <i class="icon-ban-circle icon-white"></i>
 				                    <span>Cancel upload</span>
 				                </span>

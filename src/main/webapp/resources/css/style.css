@@ -38,7 +38,6 @@ body {
 .results-div{
 	display:none;
 	text-align: center;
-	border: 3px solid #C13A33;
 	width: 98% !important;
 	margin-left: auto;
 	margin-right: auto;
@@ -46,9 +45,7 @@ body {
 }
 .results-div table th {
 	text-align: center !important;
-	color: #C13A33;
-	font-style: bold;
-	font-size: 17px; 
+	border: 1px solid #C13A33 !important;
 }
 .results-div .title, .results-div .author {
 	text-align: left;
@@ -72,23 +69,26 @@ body {
 .results-div table td{
 	border: 1px solid #C13A33 !important;
 }
+
+.fileinput-button{
+	overflow: hidden;
+	max-width: 120px !important;
+	max-height: 20px !important;
+}
 .fileinput-button input {
-	position: absolute;
-	margin: 0;
 	opacity: 0;
-	filter: alpha(opacity=0);
-	transform: translate(-300px, 0) scale(4);
-	font-size: 4px;
-	direction: ltr;
-	cursor: pointer;
+	position: relative;
+	width: 120px !important;
+	float: left;
+	left: 0px;
+	top: -20px;
 }
 #fileupload{
 	margin: 0px !important;
-	padding-top: 35px;	
+	padding-top: 15px;	
 }
 .upload-bar{
 	text-align: center;
-	border: 3px solid #C13A33;
 	width: 98% !important;
 	margin-left: auto !important;
 	margin-right: auto;
@@ -96,17 +96,17 @@ body {
 .upload-bar div{
 	padding-top: 10px !important;
 }
-.upload-table-div table{
+.upload-table-div {
 	overflow-y: auto;
-	height: 220px !important;
+	height: 270px !important;
 }
 .upload-table-div table th{
 	text-align: center;
-	border: 1px solid #dddddd !important;
+	border: 1px solid #C13A33 !important;
 }
 .upload-table-div table td{
 	text-align: center!important;
-	border: 1px solid #dddddd !important;
+	border: 1px solid #C13A33 !important;
 }
 .upload-table-div .item-name{
 	text-align: left !important;

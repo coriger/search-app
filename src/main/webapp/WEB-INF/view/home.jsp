@@ -66,6 +66,9 @@
 				                    <i class="icon-ban-circle icon-white"></i>
 				                    <span>Cancel upload</span>
 				                </span>
+				                <div ng-hide="limitExceeded" class="alert alert-danger limit-alert">
+									<h4>{{limitAlert}}</h4>
+								</div>
 				             </div>
 				             <div>
 				             	<div class="upload-table-div">

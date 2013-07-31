@@ -43,17 +43,28 @@ searchApp.controller("SearchController", function($scope, $http, $dialog, pdfSea
 	};
 	//listen for the file selected event
 	$scope.files = [];
+	$scope.limitExceeded = true;
     $scope.$on("fileSelected", function (event, args) {
         $scope.$apply(function () {            
             //add the file object to the scope's files collection
         	var file = args.file;
         	if(file.type == "application/pdf") file.response = "resources/images/success.png"
         	else  file.response = "resources/images/error.png"
-        	$scope.files.push(file);
-        });
+        	if($scope.files.length > 10){
+        		$scope.limitAlert = "Upload limit exceeded. Upload limit is 10 files";
+        		$scope.limitExceeded = false;
+        		event.preventDefault();
+        	}
+        	else{
+        		$scope.files.push(file);
+        		$scope.limitExceeded = true;
+        	}
+    	});
     });
     $scope.deleteFile = function(index) {
     	$scope.files.splice(index,1);
+    	if($scope.files.length <= 10)
+    		$scope.limitExceeded = true;
     };
     $scope.isUploading = function(){
     	return $scope.uploading;

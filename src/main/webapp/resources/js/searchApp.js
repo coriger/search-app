@@ -66,12 +66,6 @@ searchApp.controller("SearchController", function($scope, $http, $dialog, pdfSea
     	if($scope.files.length <= 10)
     		$scope.limitExceeded = true;
     };
-    $scope.isUploading = function(){
-    	return $scope.uploading;
-    };
-    $scope.shouldDisable = function(){
-    	return $scope.files.length < 1;
-    };
     $scope.upload = function(){
     	$scope.uploading = true;
     	if($scope.files.length > 0){

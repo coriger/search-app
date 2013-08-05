@@ -134,7 +134,7 @@ searchApp.directive('drawVisualization', function ($dialog,$compile) {
         		if(nodes.length <= 0)
         			return;
         		var force = d3.layout.force()
-        		    .gravity(0.2)
+        		    .gravity(0.5)
         		    .charge(function(d, i) { return i ? 0 : -2000; })
         		    .nodes(nodes)
         		    .size([w, h]);

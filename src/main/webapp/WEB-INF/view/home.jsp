@@ -91,6 +91,20 @@
 				        </div>
 				    </form>
 				</tab>
+				<tab heading="My PDFs">
+			 		<div class="myfiles-div">
+						<table class="table">
+							<tr>
+								<th>Title</th>
+								<th>Author</th>
+							</tr>
+							<tr ng-repeat="file in myFiles">
+								<td class="title">{{file.title}}</td>
+								<td class="url">{{file.author}}</td>
+							</tr>
+						</table>
+					</div>
+				</tab>
 		</tabset>
 	</div>
 </body>

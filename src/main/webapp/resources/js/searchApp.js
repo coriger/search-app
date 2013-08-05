@@ -15,6 +15,10 @@ searchApp.directive('fileUpload', function () {
     };
 });
 searchApp.controller("SearchController", function($scope, $http, $dialog, pdfSearchService) {
+	pdfSearchService.findMyFiles(function(results) {
+		$scope.myFiles = results;
+		$scope.$apply();
+	});
 	$scope.opts = {
 		    backdrop: true,
 		    keyboard: true,
@@ -90,15 +94,11 @@ searchApp.controller("SearchController", function($scope, $http, $dialog, pdfSea
             success(function (data, status, headers, config) {
             	$scope.showUploadStatus(data);
             	$scope.files = [];
-                console.log(data);
-                console.log(status);
                 $scope.uploading = false;
             }).
             error(function (data, status, headers, config) {
             	$scope.uploading = false;
             	alert("failed!");
-                console.log(data);
-                console.log(status);
             });
     	}
     };
@@ -134,7 +134,7 @@ searchApp.directive('drawVisualization', function ($dialog,$compile) {
         		if(nodes.length <= 0)
         			return;
         		var force = d3.layout.force()
-        		    .gravity(0.5)
+        		    .gravity(0.2)
         		    .charge(function(d, i) { return i ? 0 : -2000; })
         		    .nodes(nodes)
         		    .size([w, h]);
@@ -164,7 +164,7 @@ searchApp.directive('drawVisualization', function ($dialog,$compile) {
         		    	scope["node"+d.id] = d;
         		        return "show(node"+d.id+");"
         		    })
-        		    .style("fill", function(d, i) { return color(i) })
+        		    .style("fill", function(d, i) { return color(i); })
         		    .call(force.drag)
         		    .append("svg:title")
         		    .text(function(d){ return d.title; });

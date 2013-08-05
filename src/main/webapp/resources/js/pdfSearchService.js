@@ -15,5 +15,17 @@ angular.module('searchApp').factory('pdfSearchService', function() {
 			});
 		}
 	};
+	service.findMyFiles = function(callback){
+		$.ajax({
+			type : "GET",
+			processData : false,
+			url : 'findFiles',
+			contentType : 'application/json; charset=utf-8',
+			dataType : 'json',
+			success : function(data) {
+				callback(data.aaData);
+			}
+		});
+	}
 	return service;
 });

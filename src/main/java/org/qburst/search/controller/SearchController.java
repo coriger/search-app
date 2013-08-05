@@ -36,7 +36,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-
 /**
  * @author Cyril
  * 
@@ -54,8 +53,7 @@ public class SearchController {
 
 	@RequestMapping(value = "/search", method = RequestMethod.GET)
 	public @ResponseBody
-	String doSearch(
-			@RequestParam(required = true, value = "query") String q) {
+	String doSearch(@RequestParam(required = true, value = "query") String q) {
 		String jsonData = "";
 		try {
 			QueryResponse response = solrService.queryBooks(q);
@@ -69,13 +67,37 @@ public class SearchController {
 					Search s = new Search();
 					s.setHighlights(data);
 					s.setId(key);
-					SolrDocument sd = getResult(results, key);
-					s.setAuthor(sd.containsKey("author") ? stringify(sd.get("author")) : "Unknown");
+					SolrDocument sd = getResult(results, key);	
+					s.setAuthor(sd.containsKey("author") ? (sd.get("author").toString().trim().isEmpty() ? "Unknown": sd.get("author").toString().trim()): "Unknown");					
 					s.setUrl(sd.containsKey("url") ? sd.get("url").toString() : "");
 					s.setTitle(sd.containsKey("title") ? stringify(sd.get("title")) : "");
 					s.setUserDetails(solrService.getUserInfo(s.getUrl()));
 					mySearch.add(s);
 				}
+			}
+			ObjectMapper mapper = new ObjectMapper();
+			jsonData = mapper.writeValueAsString(mySearch);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		String a = "aaData";
+		return "{" + '"' + a + '"' + ":" + jsonData + "}";
+	}
+	@RequestMapping(value = "/findFiles", method = RequestMethod.GET)
+	public @ResponseBody String doFindMyFiles(HttpServletRequest request,HttpServletResponse response) {
+		String jsonData = "";
+		try {
+			Authentication user = ((Authentication)request.getSession().getAttribute(LoginFilter.OPENID_INDENTITY));
+			SolrDocumentList books = solrService.queryUserBooks(user);
+			ArrayList<Search> mySearch = new ArrayList<Search>();
+			for(SolrDocument book :  books){
+				Search s = new Search();
+				s.setId(book.get("id").toString());
+				s.setAuthor(book.containsKey("author") ? (book.get("author").toString().trim().isEmpty() ? "Unknown": book.get("author").toString().trim()): "Unknown");					
+				s.setUrl(book.containsKey("url") ? book.get("url").toString() : "");
+				s.setTitle(book.containsKey("title") ? stringify(book.get("title")) : "");
+				s.setUserDetails(solrService.getUserInfo(s.getUrl()));
+				mySearch.add(s);
 			}
 			ObjectMapper mapper = new ObjectMapper();
 			jsonData = mapper.writeValueAsString(mySearch);

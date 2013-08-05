@@ -66,6 +66,23 @@ public class SolrUtils implements ISolrUtils{
 			solr.shutdown();
 		}
 	}
+	public SolrDocumentList queryUserBooks(Authentication user) throws Exception{
+		HttpSolrServer solrUsers = new HttpSolrServer(env.getProperty("solr.users"));
+		String email = user.getEmail();
+		SolrQuery queryUser = new SolrQuery();
+		queryUser.setQuery("email:" +email);
+		QueryResponse responseUser = solrUsers.query(queryUser);
+		SolrDocumentList books = new SolrDocumentList();
+		for(SolrDocument doc :  responseUser.getResults()){
+		   HttpSolrServer solrBooks = new HttpSolrServer(env.getProperty("solr.books"));
+		   SolrQuery queryBooks = new SolrQuery();
+		   queryBooks.setQuery("id:" +doc.getFieldValue("id"));
+		   QueryResponse responseBooks = solrBooks.query(queryBooks);
+		   SolrDocumentList results = responseBooks.getResults();
+		   books.add(results.get(0));
+		 }
+		return books;
+	}
 
 	@Override
 	public HashMap<String, String> getUserInfo(String url) throws Exception {

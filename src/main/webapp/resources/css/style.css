@@ -35,7 +35,7 @@ body {
 .search-div h1{
 	color : #4CAE4C;
 }
-.results-div{
+.results-div, .myfiles-div{
 	display:none;
 	text-align: center;
 	width: 98% !important;
@@ -43,15 +43,21 @@ body {
 	margin-right: auto;
 	margin-top: 8px;
 }
-.results-div table th {
+.myfiles-div{
+	display: block !important;
+}
+.results-div table th, .myfiles-div table th {
 	text-align: center !important;
 	border: 1px solid #C13A33 !important;
 }
-.results-div .title, .results-div .author {
+.results-div .title, .results-div .author, .myfiles-div .title, .myfiles-div .author {
 	text-align: left;
 }
 .results-div .action{
 	text-align: center !important;
+}
+.results-div table td, .myfiles-div table td{
+	border: 1px solid #C13A33 !important;
 }
 
 .svg_vis{
@@ -66,9 +72,6 @@ body {
 	height: 360px !important;
 	max-height: 360px !important;
 }*/
-.results-div table td{
-	border: 1px solid #C13A33 !important;
-}
 
 .fileinput-button{
 	overflow: hidden;

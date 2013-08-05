@@ -16,14 +16,13 @@
 
 </head>
 <body ng-app="searchApp">
-<jsp:include page="components/userProfile.jsp" />
 	<div ng-controller="SearchController">
 		<div class="search-div">
+			<jsp:include page="components/userProfile.jsp" />
 			<h1>PDF Search</h1>
 			<form ng-submit="submitSearch()">
 				<input type="text" class="search-text" placeholder="Enter search term" ng-model="searchKeyword"> 
 					<input type="submit" id="search-btn" value="Search" class="btn btn-primary">
-						<span class="help-block">{{result_text}}</span>
 			</form>
 		</div>
 		<tabset>

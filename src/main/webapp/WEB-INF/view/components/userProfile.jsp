@@ -1,6 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<div class="container">
 
 	<ul class="nav nav-pills pull-right">
 		<li class="dropdown">
@@ -10,7 +9,6 @@
 			</ul>
 		</li>
 	</ul>
-</div>
 
 <!-- See more at:
 http://www.w3resource.com/twitter-bootstrap/navbar-tutorial.php#sthash.TKj9gbx9.dpuf -->

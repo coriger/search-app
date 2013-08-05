@@ -30,7 +30,8 @@ body {
 }
 .search-div{
 	text-align: center;
-	margin : 5px !important;
+	margin : 5px;
+	margin-top: 55px !important;
 }
 .search-div h1{
 	color : #4CAE4C;

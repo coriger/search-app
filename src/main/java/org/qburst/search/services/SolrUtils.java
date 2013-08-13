@@ -77,10 +77,11 @@ public class SolrUtils implements ISolrUtils{
 		   HttpSolrServer solrBooks = new HttpSolrServer(env.getProperty("solr.books"));
 		   SolrQuery queryBooks = new SolrQuery();
 		   queryBooks.setQuery("id:" +doc.getFieldValue("id"));
+		   queryBooks.setRows(1000);
 		   QueryResponse responseBooks = solrBooks.query(queryBooks);
 		   SolrDocumentList results = responseBooks.getResults();
 		   books.add(results.get(0));
-		 }
+		}
 		return books;
 	}
 

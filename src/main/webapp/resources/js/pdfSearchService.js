@@ -19,7 +19,7 @@ angular.module('searchApp').factory('pdfSearchService', function() {
 		$.ajax({
 			type : "GET",
 			processData : false,
-			url : 'findFiles',
+			url : 'myfiles',
 			contentType : 'application/json; charset=utf-8',
 			dataType : 'json',
 			success : function(data) {

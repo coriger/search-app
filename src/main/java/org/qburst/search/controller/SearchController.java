@@ -83,7 +83,7 @@ public class SearchController {
 		String a = "aaData";
 		return "{" + '"' + a + '"' + ":" + jsonData + "}";
 	}
-	@RequestMapping(value = "/findFiles", method = RequestMethod.GET)
+	@RequestMapping(value = "/myfiles", method = RequestMethod.GET)
 	public @ResponseBody String doFindMyFiles(HttpServletRequest request,HttpServletResponse response) {
 		String jsonData = "";
 		try {

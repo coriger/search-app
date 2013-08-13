@@ -52,7 +52,7 @@
 					<form id="fileupload" method="POST" enctype="multipart/form-data">
 				        <div class="row upload-bar">
 				            <div>
-				                <span class="btn btn-success fileinput-button" ng-disabled="isUploading()">
+				                <span class="btn btn-success fileinput-button" ng-disabled="uploading">
 				                    <i class="icon-plus icon-white"></i>
 				                    <input type="file" name="files[]" multiple file-upload accept="application/pdf" ng-disabled="uploading"/>
 				                    <span>Add files...</span>

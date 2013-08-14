@@ -70,6 +70,8 @@ searchApp.controller("SearchController", function($scope, $http, $dialog, pdfSea
     };
     $scope.upload = function(){
     	$scope.uploading = true;
+    	var d = $dialog.dialog({ backdrop: true, keyboard: false, backdropClick: false, dialogFade: false})
+    	d.open('resources/template/progress_monitor.html');
     	if($scope.files.length > 0){
     		$http({
                 method: 'POST',
@@ -90,6 +92,7 @@ searchApp.controller("SearchController", function($scope, $http, $dialog, pdfSea
                 data: { files: $scope.files }
             }).
             success(function (data, status, headers, config) {
+            	d.close(undefined);
             	$scope.showUploadStatus(data);
             	$scope.files = [];
                 $scope.uploading = false;

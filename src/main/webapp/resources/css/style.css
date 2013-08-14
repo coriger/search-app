@@ -145,3 +145,11 @@ body {
 .limit-alert{
 	margin-top: 15px;
 }
+.progress-monitor img{
+	position : absolute;
+	top : 25%;
+	left : 38%;
+}
+.progress-monitor div{
+	text-align : center;
+}

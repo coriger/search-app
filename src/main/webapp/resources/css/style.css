@@ -129,10 +129,6 @@ body {
 	font-weight: normal;
 	font-size: 14px;
 }
-.modal{
-	width: auto !important;
-	left: 43% !important;
-}
 .modal-body table th{
 	color: #51a351;
 	font-size: 17px;

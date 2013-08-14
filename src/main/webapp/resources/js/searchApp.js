@@ -96,8 +96,10 @@ searchApp.controller("SearchController", function($scope, $http, $dialog, pdfSea
             	$scope.showUploadStatus(data);
             	$scope.files = [];
                 $scope.uploading = false;
+                $.each(data,function(i,d){ if(d.status == "SUCCESS") $scope.myFiles.push({"title":d.fileName,"author":"Unknown"}); });
             }).
             error(function (data, status, headers, config) {
+            	d.close(undefined);
             	$scope.uploading = false;
             	alert("failed!");
             });

@@ -137,7 +137,7 @@ searchApp.directive('drawVisualization', function ($dialog,$compile) {
         		if(nodes.length <= 0)
         			return;
         		var force = d3.layout.force()
-        		    .gravity(0.5)
+        		    .gravity(0.35)
         		    .charge(function(d, i) { return i ? 0 : -2000; })
         		    .nodes(nodes)
         		    .size([w, h]);
@@ -150,9 +150,15 @@ searchApp.directive('drawVisualization', function ($dialog,$compile) {
         		nodes.forEach(function(d,i){ 
         			highlightsArr.push(d.highlights.length); 
         		});
+        		var min = 6, max = 50;
+        		highlightsArr.sort(function(a,b){return d3.ascending(a,b)});
+        		if(bisect(highlightsArr,d3.median(highlightsArr)) == highlightsArr.length)
+        			min = max; 
+        		else if (bisect(highlightsArr,d3.median(highlightsArr))>(highlightsArr.length/2))
+        			max = 30;       
         		var radiusScale = d3.scale.linear()
-        			.domain([d3.min(highlightsArr), d3.max(highlightsArr)])
-        			.range([6, 100]);
+        			.domain(d3.extent(highlightsArr))
+        			.range([min, max]);
         		svg.append("svg:rect")
         		    .attr("width", w)
         		    .attr("height", h);

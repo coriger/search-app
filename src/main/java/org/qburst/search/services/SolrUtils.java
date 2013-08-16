@@ -80,7 +80,8 @@ public class SolrUtils implements ISolrUtils{
 		   queryBooks.setQuery("id:" +doc.getFieldValue("id"));
 		   QueryResponse responseBooks = solrBooks.query(queryBooks);
 		   SolrDocumentList results = responseBooks.getResults();
-		   books.add(results.get(0));
+		   if(!results.isEmpty())
+			   books.add(results.get(0));
 		}
 		return books;
 	}

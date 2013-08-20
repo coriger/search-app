@@ -15,6 +15,7 @@ searchApp.directive('fileUpload', function () {
     };
 });
 searchApp.controller("SearchController", function($scope, $http, $dialog, pdfSearchService) {
+	$scope.active = { one: true	};
 	pdfSearchService.findMyFiles(function(results) {
 		$scope.myFiles = results;
 		$scope.$apply();
@@ -30,11 +31,15 @@ searchApp.controller("SearchController", function($scope, $http, $dialog, pdfSea
 		$scope.results = [];
 		var keyword = $scope.searchKeyword;
 		pdfSearchService.findResults(keyword, function(results) {
-			$scope.results = results;
-			$('.results-div').hide();
-			if(results.length > 0){
-				$('.results-div').show();
+			if(results){
+				$scope.results = results;
+				$('.results-div').hide();
+				if(results.length > 0){
+					$('.results-div').show();
+				}				
 			}
+			if(!$scope.active.one)
+				$scope.active = { one: true	};
 			$scope.$apply();
 		});
 	};	
@@ -96,7 +101,7 @@ searchApp.controller("SearchController", function($scope, $http, $dialog, pdfSea
             	$scope.showUploadStatus(data);
             	$scope.files = [];
                 $scope.uploading = false;
-                $.each(data,function(i,d){ if(d.status == "SUCCESS") $scope.myFiles.push({"title":d.fileName,"author":"Unknown"}); });
+                			$scope.myFiles.push({"title":d.fileName,"author":d.author});
             }).
             error(function (data, status, headers, config) {
             	d.close(undefined);

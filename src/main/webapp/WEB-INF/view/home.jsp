@@ -26,7 +26,7 @@
 			</form>
 		</div>
 		<tabset>
-		 	<tab heading="Search">
+		 	<tab heading="Search" active="active.one">
 			<div class="results-div">
 				<table class="table">
 					<tr>

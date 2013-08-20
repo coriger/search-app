@@ -11,6 +11,9 @@ angular.module('searchApp').factory('pdfSearchService', function() {
 				dataType : 'json',
 				success : function(data) {
 					callback(data.aaData);
+				},
+				error: function(){
+					callback();
 				}
 			});
 		}

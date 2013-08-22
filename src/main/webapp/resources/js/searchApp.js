@@ -155,6 +155,7 @@ searchApp.directive('drawVisualization', function ($dialog,$compile) {
         			highlightsArr.push(d.highlights.length); 
         		});
         		var min = 6, max = 50;
+        		var bisect = d3.bisector(function(d) { return d; }).right;
         		highlightsArr.sort(function(a,b){return d3.ascending(a,b)});
         		if(bisect(highlightsArr,d3.median(highlightsArr)) == highlightsArr.length)
         			min = max; 

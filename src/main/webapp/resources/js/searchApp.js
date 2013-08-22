@@ -101,7 +101,6 @@ searchApp.controller("SearchController", function($scope, $http, $dialog, pdfSea
             	$scope.showUploadStatus(data);
             	$scope.files = [];
                 $scope.uploading = false;
-                			$scope.myFiles.push({"title":d.fileName,"author":d.author});
             }).
             error(function (data, status, headers, config) {
             	d.close(undefined);
